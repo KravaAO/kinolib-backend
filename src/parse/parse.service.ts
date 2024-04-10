@@ -14,6 +14,15 @@ export class ParseService {
         }
     }
 
+    async fetchSerials(url = 'https://uaserial.club/serial/'): Promise<string> {
+        try {
+            const response = await axios.get(url)
+            return response.data
+        } catch (error) {
+            throw new NotFoundException(`resource ${url} is unavailable`)
+        }
+    }
+
     parseTabs(html: string): Tab[] {
         const $ = cheerio.load(html)
         const firstHeadingContent = $('.tabs__sorting').text()
@@ -63,6 +72,16 @@ export class ParseService {
     }
 
     async fetchMedia(url: string): Promise<MediaResponse> {
+        const html = await this.fetchContent(url)
+        const media = this.parseMediaCards(html)
+        const countOfPages = this.parseCountOfPages(html)
+        return {
+            media: media,
+            countOfPages: countOfPages,
+        }
+    }
+
+    async fetchSerial(url: string): Promise<MediaResponse> {
         const html = await this.fetchContent(url)
         const media = this.parseMediaCards(html)
         const countOfPages = this.parseCountOfPages(html)
