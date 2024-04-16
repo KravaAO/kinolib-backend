@@ -18,6 +18,11 @@ export class ParseController {
         return await this.parseService.fetchMedia(`https://uaserial.club/${page}`)
     }
 
+    @Get('/series/:page')
+    async fetchSerials(@Param('page') page = '1'): Promise<MediaResponse> {
+        return await this.parseService.fetchMedia(`https://uaserial.club/serial/${page}`)
+    }
+
     @Get('/anime/:page')
     async fetchAnime(@Param('page') page = '1'): Promise<MediaResponse> {
         return await this.parseService.fetchMedia(`https://uaserial.club/anime/${page}`)
