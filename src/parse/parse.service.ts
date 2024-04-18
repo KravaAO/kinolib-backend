@@ -71,4 +71,11 @@ export class ParseService {
             countOfPages: countOfPages,
         }
     }
+
+    async searchMedia(query: string): Promise<Media[]> {
+        const searchUrl = `https://uaserial.club/search?query=${encodeURIComponent(query)}`
+        const html = await this.fetchContent(searchUrl)
+        const media = this.parseMediaCards(html)
+        return media
+    }
 }
